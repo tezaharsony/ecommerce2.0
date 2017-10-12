@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <style media="screen" src="index.css">
+    </style>
+    <style media="screen">
+    .header-image {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.49),rgba(0, 0, 0, 0.89)),url('https://images.unsplash.com/1/iphone-4-closeup.jpg?dpr=1&auto=format&crop=middle&fit=crop&w=2000&h=700&q=80');
+    }
+    .menu {
+    padding-top: 150px;
+    }
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <script src="https://unpkg.com/vue"></script>
+  </head>
+  <body>
+  <div id="app">
+<!--+++++++++++++++++++++++++++++++++navbar+++++++++++++++++++++++++++++++++-->
+  <section class="hero is-primary is-large header-image">
+    <nav class="navbar is-transparent">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="http://bulma.io">
+          <img src="http://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+        </a>
+
+        <div class="navbar-burger burger" data-target="navMenuTransparentExample">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <div id="navMenuTransparentExample" class="navbar-menu">
+        <div class="navbar-start">
+
+        </div>
+
+        <div class="navbar-end">
+          <a class="navbar-item is-hidden-desktop-only" href="" target="_blank">
+            <span class="icon" style="color: #55acee;">
+              <i class="fa fa-shopping-cart fa-5x"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </nav>
+<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+<!--+++++++++++++++++++++++++++++++++++header++++++++++++++++++++++++++++++++-->
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1>
+          <a  class="typewrite title is-2" data-period="2000" data-type='[ "Hello.", "Welcome to our Shop.", "You can buy.", "Phone.", "Computer.","and many things." ]'>
+          <span class="wrap"></span>
+          </a>
+        </h1>
+      </div>
+    </div>
+    </section>
+<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+<!--++++++++++++++++++++side nav-bar++++++++++++++++++++++++++++++++++++++++ -->
+
+<div class="container">
+  <div class="tile is-ancestor">
+    <div class="tile is-2 is-parent">
+      <article class="tile is-child green post">
+        <aside class="menu">
+          <p class="menu-label">
+            Categories
+          </p>
+          <ul class="menu-list">
+            <li>
+              <a class="is-active">Computers</a>
+              <ul>
+                <li><a>Members</a></li>
+                <li><a>Plugins</a></li>
+                <li><a>Add a member</a></li>
+              </ul>
+            </li>
+            <li>
+              <a class="is-active">Handphone</a>
+              <ul>
+                <li><a>Members</a></li>
+                <li><a>Plugins</a></li>
+                <li><a>Add a member</a></li>
+              </ul>
+            </li>
+            <a class="button is-primary" href="/signup.html">Sign Up</a>
+              <br>
+              <a class="button is-primary" v-if ="isLogin" @click="Logout()">Log Out</a>
+              <a class="button is-primary" v-if="!isLogin" href="/login.html">Sign In </a>
+
+<!--++++++++++++++++++++Modal signin singup+++++++++++++++++++++++++++++++++-->
+        </aside>
+      </article>
+    </div>
+
+<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+<!--++++++++++++++++++++++++++++++++++search+++++++++++++++++++++++++++++++++-->
+
+    <div class="tile is is-parent">
+      <article class="tile is-child pink post">
+        <div class="columns section">
+            <div class="column ">
+              <div class="title">Products</div>
+            </div>
+          </div>
+          <br> <p>
+            Welcome {{ Username }}
+          </p>
+
+          <div class="field is-grouped">
+            <p class="control is-expanded">
+              <input class="input" type="text" placeholder="Find a repository">
+            </p>
+            <p class="control">
+              <a class="button is-info">
+                Search
+              </a>
+            </p>
+          </div>
+
+<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+
+<!--+++++++++++++++++++++++++++list products+++++++++++++++++++++++++++++++++-->
+
+      </form>
+      <div>
+      <button class="button is-primary" @click="showModalCart()">Checkout</button>
+        <div :class="modalCartClass">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Modal Cart</p>
+            <button class="delete" aria-label="close" @click="hideModalCart"></button>
+          </header>
+          <section class="modal-card-body">
+              <p v-for="cart in carts">
+              {{cart.name}} <span class="is-pulled-right">{{cart.price}}</span>
+              </p>
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button" @click="addTransaction()">Process</button>
+            <p class="is-pulled-right">
+              Total: {{total}}
+            </p>
+          </footer>
+        </div>
+      </div>
+        <button class="button is-success" @click="showCart = !showCart" v-show="!verified">
+        {{ carts.length + (carts.length > 1 || carts.length === 0 ? " items" : " item") }}
+        </button>
+          <div class="columns">
+            <div v-for="item in items " class="column ">
+              <div class="card">
+                <header class="card-header">
+                  <p class="card-header-title">
+                  {{ item.name }}
+                  </p>
+                </header>
+                <div class="card-image">
+                  <figure class="image is-4by3">
+                    <img v-bind:src="item.imageurl">
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="panel-block-item">
+                    <span class="likes">
+                      <span class="icon">
+                        <i class="fa fa-usd"></i>
+                      </span>
+                      {{ item.price }}
+                    </span>
+                  </div>
+                  <br>
+                  <div class="tabs is-centered is-boxed">
+                    <button class="button is-primary" @click="addToCart(item)">Add cart</button>
+                    <button class="button is-primary" @click="showModal(item)">Details</button>
+                    <!-- INI MODALNYA -->
+                      <div :class="modalClass">
+                        <div :class="modalClass">
+                        <div class="modal-background"></div>
+                        <div class="modal-card">
+                          <header class="modal-card-head">
+                            <p class="modal-card-title">Modal title</p>
+                            <button class="delete" aria-label="close" @click="hideModal"></button>
+                          </header>
+                          <section class="modal-card-body">
+                            <img v-bind:src="detail.imageurl">
+                          </section>
+                          <footer class="modal-card-foot">
+                            <button class="button" @click="hideModal">Close</button>
+                          </footer>
+                        </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+          </div>
+        </div>
+      </div>
+      </article>
+    </div>
+  </div>
+</div>
+</div>
+<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script type="text/javascript" src ="index.js"></script>
+  </body>
+
+</html>
